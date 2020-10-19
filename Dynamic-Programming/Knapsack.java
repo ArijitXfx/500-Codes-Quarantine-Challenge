@@ -20,6 +20,20 @@ public class Knapsack{
 			return profit;
 		}
 	}
+	
+	public static int iterativeSol(int[] wt, int[] val, int W, int N){
+		int[][] dp = new int[N+1][W+1];
+		
+		for(int i=1;i<=N;i++){
+			for(int j=1;j<=W;j++){
+				if(wt[i-1]<=j)
+					dp[i][j] = Math.max(val[i-1]+dp[i-1][j-wt[i-1]],dp[i-1][j]);
+				else
+					dp[i][j] = dp[i-1][j];
+			}
+		}
+		return dp[N][W];
+	}
 
 	public static void main(String[] args){
 		Scanner sc = new Scanner(System.in);
@@ -32,7 +46,7 @@ public class Knapsack{
 			for(int i=0;i<N;i++) val[i] = sc.nextInt();
 			for(int i=0;i<N;i++) wt[i] = sc.nextInt();
 			cache = new HashMap<String, Integer>();
-			System.out.println(solver(wt,val,W,N));
+			System.out.println(iterativeSol(wt,val,W,N));
 		}
 	}
 }
